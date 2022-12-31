@@ -1,5 +1,7 @@
 import * as dotenv from "dotenv";
-dotenv.config();
+dotenv.config({
+  path: `.env.deploy`,
+});
 
 const { PORT, DB_HOST, DB_USER, DB_PWD, DB_NAME, JWT_SECRET } = process.env;
 

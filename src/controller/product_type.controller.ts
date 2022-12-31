@@ -26,13 +26,37 @@ const create = (req: Request, res: Response) => {
         }
       }
     } else {
-      res.status(200).json({ rs: data });
+      // res.status(200).json(data);
+      getAll(req, res);
     }
   });
 };
 
-const findById = (req: any, res: Response) => {};
+const update = (req: Request, res: Response) => {
+  const productType = new (ProductType as any)(req.body);
+  ProductType.update(
+    req.params.productTypeId,
+    productType,
+    (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+      } else {
+        // res.status(200).json(data);
+        getAll(req, res);
+      }
+    }
+  );
+};
 
-const update = (req: Request, res: Response) => {};
+const remove = (req: Request, res: Response) => {
+  ProductType.delete(req.params.productTypeId, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+    } else {
+      // res.status(200).json(data);
+      getAll(req, res);
+    }
+  });
+};
 
-export { getAll, create };
+export { getAll, create, update, remove };

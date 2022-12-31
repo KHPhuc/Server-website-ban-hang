@@ -10,6 +10,7 @@ import router from "./routes";
 const app = express();
 app.use(express.static("./src/public"));
 app.use(cookieParser());
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(
   cors({

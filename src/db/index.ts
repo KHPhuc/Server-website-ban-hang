@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) throw err;
-  console.log("✅ database: connected");
+  console.log("✅ database: connected", config.dbHost);
 });
 
 const query = (query: string) => {
@@ -27,7 +27,7 @@ const query = (query: string) => {
   });
 };
 
-const queryOnject = (query: string, object: any) => {
+const queryObject = (query: string, object: any) => {
   return new Promise((res, rej) => {
     connection.query(query, object, (error, result) => {
       if (error) {
@@ -39,4 +39,4 @@ const queryOnject = (query: string, object: any) => {
   });
 };
 
-export { query, queryOnject };
+export { query, queryObject };

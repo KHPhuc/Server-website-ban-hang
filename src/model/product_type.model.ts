@@ -1,4 +1,4 @@
-import { query, queryOnject } from "../db";
+import { query, queryObject } from "../db";
 
 const table = "product_type";
 
@@ -18,7 +18,30 @@ ProductType.getAll = (result: any) => {
 };
 
 ProductType.create = (newProductType: any, result: any) => {
-  queryOnject(`INSERT INTO ${table} SET ?`, newProductType)
+  queryObject(`INSERT INTO ${table} SET ?`, newProductType)
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+ProductType.update = (id: any, productType: any, result: any) => {
+  queryObject(
+    `UPDATE ${table} SET productTypeName = ? WHERE productTypeId = ?`,
+    [productType.productTypeName, id]
+  )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+ProductType.delete = (id: any, result: any) => {
+  queryObject(`DELETE FROM ${table} WHERE productTypeId = ?`, id)
     .then((res) => {
       result(null, res);
     })

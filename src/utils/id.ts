@@ -7,6 +7,7 @@ export const generateId = (header: any) => {
 // A - address
 // C - customer
 // DP - detail product
+// DPT
 // 0 - order
 // PM - payment method
 // P - product

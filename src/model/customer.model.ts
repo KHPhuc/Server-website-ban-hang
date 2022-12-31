@@ -1,4 +1,4 @@
-import { query, queryOnject } from "../db";
+import { query, queryObject } from "../db";
 
 const table = "customer";
 
@@ -21,7 +21,7 @@ Customer.getAll = (result: any) => {
 };
 
 Customer.register = (newCustomer: any, result: any) => {
-  queryOnject(`INSERT INTO ${table} SET ?`, newCustomer)
+  queryObject(`INSERT INTO ${table} SET ?`, newCustomer)
     .then((res) => {
       result(null, res);
     })
