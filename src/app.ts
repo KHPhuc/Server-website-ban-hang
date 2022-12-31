@@ -24,6 +24,10 @@ app.use(
 //   })
 // );
 
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
+
 // app.get("/sse", (req, res) => {
 //   console.log("Connected");
 //   // res.setHeader("Content-Type", "text/event-stream");
