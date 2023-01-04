@@ -49,7 +49,9 @@ const login = (req: Request, res: Response) => {
         if (data.length) {
           let token = generateToken(data.customerId, req.body.username);
           // console.log(token);
-          res.cookie("token", token);
+          res.cookie("token", token, {
+            sameSite: "none",
+          });
           // console.log(res);
           res.status(200).json({
             id: data[0].customerId,
