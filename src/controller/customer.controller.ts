@@ -27,6 +27,10 @@ const register = (req: Request, res: Response) => {
     } else {
       let token = generateToken(customer.customerId, req.body.phoneNumber);
       // res.setHeader('set-cookie', token)
+      res.cookie("token", token, {
+        sameSite: "none",
+        secure: true,
+      });
       res.status(200).json({
         id: customer.customerId,
         username: req.body.phoneNumber,
@@ -51,6 +55,7 @@ const login = (req: Request, res: Response) => {
           // console.log(token);
           res.cookie("token", token, {
             sameSite: "none",
+            secure: true,
           });
           // console.log(res);
           res.status(200).json({
