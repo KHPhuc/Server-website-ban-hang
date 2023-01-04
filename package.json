@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "if (process.env.NODE_ENV === 'product) {nodemon build/app.js} || nodemon src/app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon build/app.js",
+    "test": "nodemon src/app.ts",
     "postinstall": "tsc"
   },
   "engines": {
