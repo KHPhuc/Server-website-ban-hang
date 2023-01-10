@@ -1,4 +1,4 @@
-import { query, queryObject } from "../db";
+import { query, queryObject } from "../../db";
 
 const table = "detail_product_type";
 

@@ -4,7 +4,7 @@ import {
   create,
   update,
   remove,
-} from "../../controller/detail_product_type.controller";
+} from "../../controller/ProductType/detail_product_type.controller";
 import { authToken } from "../../utils/token";
 
 const detailProductTypeRouter = Router();
