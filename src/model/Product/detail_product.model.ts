@@ -38,6 +38,20 @@ DetailProduct.create = (newDetailProduct: any, result: any) => {
     .catch((err) => result(err, null));
 };
 
+DetailProduct.update = (id: any, detailProduct: any, result: any) => {
+  queryObject(`UPDATE ${table} SET image=? color=? WHERE detailPTId=? `, [
+    detailProduct.image,
+    detailProduct.color,
+    id,
+  ])
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 DetailProduct.deleteFromProduct = (id: any, result: any) => {
   queryObject(`UPDATE ${table} SET old=? WHERE productId = ?`, ["true", id])
     .then((res) => {

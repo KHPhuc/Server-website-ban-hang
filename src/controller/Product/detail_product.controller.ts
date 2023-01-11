@@ -66,6 +66,19 @@ const createFromProduct = (id: any, req: Request, res: Response) => {
     });
 };
 
+const create = (req: Request, res: Response) => {
+  let detailProduct = new (DetailProduct as any)(req.body);
+  detailProduct.detailProductId = generateId(prefix);
+  DetailProduct.create(detailProduct, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      getWithDetailProduct(req, res);
+    }
+  });
+};
+
 const getAllWithProduct = (req: Request, res: Response, data: any) => {
   var promises = data.map((e: any) => {
     return new Promise((res, rej) => {
@@ -143,6 +156,46 @@ const getAllWithProduct = (req: Request, res: Response, data: any) => {
     });
 };
 
+const update = (req: Request, res: Response) => {
+  const detailProduct = new (DetailProduct as any)(req.body);
+  // detailProduct.detailProductId = generateId(prefix);
+
+  DetailProduct.update(
+    req.params.detailProductId,
+    detailProduct,
+    (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json();
+      } else {
+        getWithDetailProduct(req, res);
+      }
+    }
+  );
+};
+
+const updateAndDelete = (req: Request, res: Response) => {
+  const detailProduct = new (DetailProduct as any)(req.body);
+  detailProduct.detailProductId = generateId(prefix);
+
+  DetailProduct.delete(req.params.detailProductId, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      // res.status(200).json(data);
+      // getWithDetailProduct(req, res);
+      DetailProduct.create(detailProduct, (err: any, data: any) => {
+        if (err) {
+          console.log(err);
+        } else {
+          getWithDetailProduct(req, res);
+        }
+      });
+    }
+  });
+};
+
 const deleteFromProduct = (req: Request, res: Response) => {
   DetailProduct.deleteFromProduct(
     req.params.productId,
@@ -175,4 +228,7 @@ export {
   getAllWithProduct,
   deleteFromProduct,
   remove,
+  updateAndDelete,
+  update,
+  create,
 };

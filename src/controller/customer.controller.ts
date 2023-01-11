@@ -7,7 +7,11 @@ const prefix = "C";
 
 const getAll = (req: any, res: any) => {
   Customer.getAll((err: any, data: any) => {
-    res.json({ rs: data });
+    if (err) {
+      res.status(500).json();
+    } else {
+      res.status(200).json(data);
+    }
   });
 };
 
