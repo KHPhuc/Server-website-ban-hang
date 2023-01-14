@@ -4,6 +4,7 @@ import {
   create,
   update,
   updateAndDelete,
+  remove,
 } from "../../controller/promotion.controller";
 import { authToken } from "../../utils/token";
 
@@ -17,5 +18,6 @@ promotionRouter.post(
   authToken,
   updateAndDelete
 );
+promotionRouter.delete("/delete/:promotionId", authToken, remove);
 
 export default promotionRouter;

@@ -15,7 +15,7 @@ const Promotion = function (promotion: any) {
 };
 
 Promotion.getAll = (result: any) => {
-  query(`SELECT * FROM ${table} WHERE old = false`).then((res) => {
+  query(`SELECT * FROM ${table} WHERE old = "false"`).then((res) => {
     result(null, res);
   });
 };
@@ -64,7 +64,7 @@ Promotion.update = (id: any, promotion: any, result: any) => {
 };
 
 Promotion.delete = (id: any, result: any) => {
-  queryObject(`UPDATE ${table} SET old=? WHERE promotionCode=?`, ["true", id])
+  queryObject(`UPDATE ${table} SET old=? WHERE promotionId=?`, ["true", id])
     .then((res) => {
       result(null, res);
     })

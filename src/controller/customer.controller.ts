@@ -2,15 +2,30 @@ import { Request, Response } from "express";
 import Customer from "../model/customer.model";
 import { generateToken } from "../utils/token";
 import { generateId } from "../utils/id";
+import { json } from "body-parser";
 
 const prefix = "C";
 
 const getAll = (req: any, res: any) => {
   Customer.getAll((err: any, data: any) => {
     if (err) {
+      console.log(err);
       res.status(500).json();
     } else {
       res.status(200).json(data);
+    }
+  });
+};
+
+const create = (req: any, res: any) => {
+  const newCustomer = new (Customer as any)(req.body);
+  newCustomer.customerId = generateId(prefix);
+  Customer.register(newCustomer, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      getAll(req, res);
     }
   });
 };
@@ -77,4 +92,26 @@ const login = (req: Request, res: Response) => {
   );
 };
 
-export { getAll, login, register };
+const ban = (req: Request, res: Response) => {
+  Customer.ban(req.params.customerId, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      getAll(req, res);
+    }
+  });
+};
+
+const unBan = (req: Request, res: Response) => {
+  Customer.unBan(req.params.customerId, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      getAll(req, res);
+    }
+  });
+};
+
+export { getAll, login, register, create, ban, unBan };

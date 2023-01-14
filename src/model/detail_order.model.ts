@@ -1,4 +1,4 @@
-import {query} from "../db";
+import { query } from "../db";
 
 const table = "detail_order";
 
@@ -14,5 +14,16 @@ DetailOrder.getAll = (result: any) => {
   });
 };
 
-export default DetailOrder;
+DetailOrder.getAllFromOrder = (orderId: any, result: any) => {
+  query(
+    `SELECT * FROM ${table} INNER JOIN detail_product WHERE ${table}.detailProductId = detail_product.detailProductId AND orderId = "${orderId}"`
+  )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err: any) => {
+      result(err, null);
+    });
+};
 
+export default DetailOrder;

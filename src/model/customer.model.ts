@@ -15,9 +15,13 @@ const Customer = function (customer: any) {
 };
 
 Customer.getAll = (result: any) => {
-  query(`SELECT * FROM ${table}`).then((res) => {
-    result(null, res);
-  });
+  query(`SELECT * FROM ${table}`)
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
 };
 
 Customer.register = (newCustomer: any, result: any) => {
@@ -36,6 +40,32 @@ Customer.login = (username: any, password: any, result: any) => {
   )
     .then((res) => {
       // console.log("res ===> ", res);
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+Customer.ban = (customerId: any, result: any) => {
+  queryObject(`UPDATE ${table} SET ban=? WHERE customerId =?`, [
+    "true",
+    customerId,
+  ])
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+Customer.unBan = (customerId: any, result: any) => {
+  queryObject(`UPDATE ${table} SET ban=? WHERE customerId =?`, [
+    "false",
+    customerId,
+  ])
+    .then((res) => {
       result(null, res);
     })
     .catch((err) => {

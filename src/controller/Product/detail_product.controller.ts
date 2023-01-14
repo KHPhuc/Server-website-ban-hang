@@ -156,6 +156,31 @@ const getAllWithProduct = (req: Request, res: Response, data: any) => {
     });
 };
 
+export const getAllToShow = (req: Request, res: Response) => {
+  DetailProduct.getAllToShow((err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
+
+export const getFollowDetailPT = (req: Request, res: Response) => {
+  DetailProduct.getFollowDetailPT(
+    req.params.detailPTId,
+    (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json(err);
+      } else {
+        res.status(200).json(data);
+      }
+    }
+  );
+};
+
 const update = (req: Request, res: Response) => {
   const detailProduct = new (DetailProduct as any)(req.body);
   // detailProduct.detailProductId = generateId(prefix);

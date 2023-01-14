@@ -69,4 +69,15 @@ const updateAndDelete = (req: Request, res: Response) => {
   });
 };
 
-export { getAll, create, update, updateAndDelete };
+const remove = (req: Request, res: Response) => {
+  Promotion.delete(req.params.promotionId, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      getAll(req, res);
+    }
+  });
+};
+
+export { getAll, create, update, updateAndDelete, remove };

@@ -32,6 +32,30 @@ DetailProduct.getAllWithProductId = (id: any, result: any) => {
     });
 };
 
+DetailProduct.getAllToShow = (result: any) => {
+  query(
+    `SELECT * FROM ${table} INNER JOIN product WHERE detail_product.productId = product.productId AND detail_product.old = "false" AND quantity!=0 GROUP BY color, detail_product.productId`
+  )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+DetailProduct.getFollowDetailPT = (id: any, result: any) => {
+  query(
+    `SELECT * FROM product INNER JOIN ${table} WHERE detail_product.productId = product.productId AND detailPTId = "${id}" AND detailProductId IN (SELECT detailProductId FROM ${table} WHERE old = "false" AND quantity != 0 GROUP BY color, productId) GROUP BY color, detail_product.productId`
+  )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 DetailProduct.create = (newDetailProduct: any, result: any) => {
   queryObject(`INSERT INTO ${table} SET?`, newDetailProduct)
     .then((res) => result(null, res))
@@ -39,9 +63,8 @@ DetailProduct.create = (newDetailProduct: any, result: any) => {
 };
 
 DetailProduct.update = (id: any, detailProduct: any, result: any) => {
-  queryObject(`UPDATE ${table} SET image=? color=? WHERE detailPTId=? `, [
+  queryObject(`UPDATE ${table} SET image=? WHERE detailProductId=? `, [
     detailProduct.image,
-    detailProduct.color,
     id,
   ])
     .then((res) => {

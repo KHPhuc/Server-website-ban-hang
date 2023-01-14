@@ -6,12 +6,16 @@ import {
   update,
   updateAndDelete,
   create,
+  getAllToShow,
+  getFollowDetailPT
 } from "../../controller/Product/detail_product.controller";
 import { upload } from "../../upload/Upload";
 import { authToken } from "../../utils/token";
 
 const detailProductRouter = Router();
 
+detailProductRouter.get("/", getAllToShow);
+detailProductRouter.get("/productType/:detailPTId", getFollowDetailPT);
 detailProductRouter.post(
   "/uploadImage",
   [authToken, upload.single("myFile")],

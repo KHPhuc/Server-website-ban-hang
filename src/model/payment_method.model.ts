@@ -9,6 +9,16 @@ const PaymentMethod = function (paymentMethod: any) {
   this.status = paymentMethod.status;
 };
 
+PaymentMethod.getAllForUser = (result: any) => {
+  query(`SELECT * FROM ${table} WHERE status = 'true'`)
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 PaymentMethod.getAll = (result: any) => {
   query(`SELECT * FROM ${table}`).then((res) => {
     result(null, res);

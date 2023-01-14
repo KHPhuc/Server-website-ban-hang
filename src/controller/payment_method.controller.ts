@@ -3,6 +3,17 @@ import PaymentMethod from "../model/payment_method.model";
 
 const prefix = "PM";
 
+export const getAllForUser = (req: Request, res: Response) => {
+  PaymentMethod.getAllForUser((err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
+
 const getAll = (req: Request, res: Response) => {
   PaymentMethod.getAll((err: any, data: any) => {
     if (err) {

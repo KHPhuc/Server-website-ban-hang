@@ -6,6 +6,8 @@ import detailProductTypeRouter from "./DetailProductType/detailProductType.route
 import detailProductRouter from "./DetailProduct/detailProduct.route";
 import promotionRouter from "./Promotion/promotion.route";
 import paymentMethodRouter from "./PaymentMethod/payment_method";
+import orderRouter from "./Order/order";
+import cartRouter from "./Cart/cart.router";
 
 const apiRouter = Router();
 
@@ -16,5 +18,7 @@ apiRouter.use("/detail_product_type", detailProductTypeRouter);
 apiRouter.use("/detail_product", detailProductRouter);
 apiRouter.use("/promotion", promotionRouter);
 apiRouter.use("/payment", paymentMethodRouter);
+apiRouter.use("/order", orderRouter);
+apiRouter.use("/cart", cartRouter)
 
 export default apiRouter;

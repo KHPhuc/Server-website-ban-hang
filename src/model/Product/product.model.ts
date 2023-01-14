@@ -5,12 +5,39 @@ const table = "product";
 const Product = function (product: any) {
   this.productId = product.productId;
   this.productName = product.productName;
+  this.linkProduct = product.linkProduct;
   this.detailPTId = product.detailPTId;
   this.description = product.description;
 };
 
 Product.getAll = (result: any) => {
-  query(`SELECT * FROM ${table}`)
+  query(`SELECT * FROM ${table} WHERE old = "false"`)
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+Product.findNameProduct = (name: any, result: any) => {
+  queryObject(`SELECT * FROM ${table} WHERE productName = ? AND old = ?`, [
+    name,
+    "false",
+  ])
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+Product.getDetailProduct = (name: any, result: any) => {
+  queryObject(
+    `SELECT * FROM ${table} INNER JOIN detail_product WHERE product.productId = detail_product.productId AND linkProduct = ? AND detail_product.old = ?`,
+    [name, "false"]
+  )
     .then((res) => {
       result(null, res);
     })
