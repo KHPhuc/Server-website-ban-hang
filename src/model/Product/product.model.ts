@@ -35,7 +35,7 @@ Product.findNameProduct = (name: any, result: any) => {
 
 Product.getDetailProduct = (name: any, result: any) => {
   queryObject(
-    `SELECT * FROM ${table} INNER JOIN detail_product WHERE product.productId = detail_product.productId AND linkProduct = ? AND detail_product.old = ?`,
+    `SELECT * FROM ${table} INNER JOIN detail_product WHERE product.productId = detail_product.productId AND linkProduct = ? AND detail_product.old = ? AND quantity > 0`,
     [name, "false"]
   )
     .then((res) => {

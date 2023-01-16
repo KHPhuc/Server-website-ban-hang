@@ -1,4 +1,4 @@
-import { query } from "../db";
+import { query, queryObject } from "../../db";
 
 const table = "detail_order";
 
@@ -18,6 +18,16 @@ DetailOrder.getAllFromOrder = (orderId: any, result: any) => {
   query(
     `SELECT * FROM ${table} INNER JOIN detail_product WHERE ${table}.detailProductId = detail_product.detailProductId AND orderId = "${orderId}"`
   )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err: any) => {
+      result(err, null);
+    });
+};
+
+DetailOrder.create = (newDetailOrder: any, result: any) => {
+  queryObject(`INSERT INTO ${table} SET?`, newDetailOrder)
     .then((res) => {
       result(null, res);
     })

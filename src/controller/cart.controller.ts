@@ -71,3 +71,33 @@ export const addCart = (req: Request, res: Response) => {
     }
   );
 };
+
+export const updateCart = (req: Request, res: Response) => {
+  let cart = new (Cart as any)(req.body);
+  Cart.update(cart, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      // getAll(req, res, cart.customerId);
+      req.params.customerId = cart.customerId;
+      getDetailCartById(req, res);
+    }
+  });
+};
+
+export const deteleCart = (req: Request, res: Response) => {
+  Cart.deleteProduct(
+    req.body.customerId,
+    req.body.detailProductId,
+    (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json();
+      } else {
+        req.params.customerId = req.body.customerId;
+        getDetailCartById(req, res);
+      }
+    }
+  );
+};

@@ -53,9 +53,11 @@ const register = (req: Request, res: Response) => {
       res.status(200).json({
         id: customer.customerId,
         username: req.body.phoneNumber,
+        phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
         name: req.body.name,
         isAdmin: req.body.isAdmin ? true : false,
-        token: token,
+        // token: token,
       });
     }
   });
@@ -80,9 +82,11 @@ const login = (req: Request, res: Response) => {
           res.status(200).json({
             id: data[0].customerId,
             username: req.body.username,
+            phoneNumber: data[0].phoneNumber,
+            email: data[0].email,
             name: data[0].name,
             isAdmin: data[0].isAdmin === "true" ? true : false,
-            token: token,
+            // token: token,
           });
         } else {
           res.status(400).send("Invalid Credentials");

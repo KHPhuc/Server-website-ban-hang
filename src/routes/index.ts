@@ -8,6 +8,7 @@ import promotionRouter from "./Promotion/promotion.route";
 import paymentMethodRouter from "./PaymentMethod/payment_method";
 import orderRouter from "./Order/order";
 import cartRouter from "./Cart/cart.router";
+import addressRouter from "./Address/address.router";
 
 const apiRouter = Router();
 
@@ -19,6 +20,7 @@ apiRouter.use("/detail_product", detailProductRouter);
 apiRouter.use("/promotion", promotionRouter);
 apiRouter.use("/payment", paymentMethodRouter);
 apiRouter.use("/order", orderRouter);
-apiRouter.use("/cart", cartRouter)
+apiRouter.use("/cart", cartRouter);
+apiRouter.use("/address", addressRouter);
 
 export default apiRouter;

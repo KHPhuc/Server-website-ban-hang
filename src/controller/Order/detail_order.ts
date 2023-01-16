@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import DetailOrder from "../../model/detail_order.model";
+import DetailOrder from "../../model/Order/detail_order.model";
 
 const getAllFromOrder = (req: Request, res: Response, data: any) => {
   var promises = data.map((e: any) => {
     return new Promise((res, rej) => {
       DetailOrder.getAllFromOrder(e.orderId, (err: any, dt: any) => {
         if (err) {
+          console.log(err);
           rej(err);
         } else {
           res(dt);

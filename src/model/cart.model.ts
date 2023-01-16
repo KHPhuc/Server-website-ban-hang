@@ -16,7 +16,7 @@ Cart.getAll = (result: any) => {
 
 Cart.getDetailCartById = (id: any, result: any) => {
   queryObject(
-    `SELECT * FROM ${table} INNER JOIN detail_product, product WHERE cart.detailProductId = detail_product.detailProductId AND detail_product.productId = product.productId AND customerId = ?`,
+    `SELECT product.productId, productName, cart.detailProductId, image, color, size, cart.quantity, currentPrice, originalPrice, detail_product.quantity as kho, linkProduct FROM ${table} INNER JOIN detail_product, product WHERE cart.detailProductId = detail_product.detailProductId AND detail_product.productId = product.productId AND customerId = ?`,
     id
   )
     .then((res) => {
@@ -65,6 +65,21 @@ Cart.update = (cart: any, result: any) => {
     `UPDATE ${table} SET quantity = ? WHERE customerId = ? AND detailProductId = ?`,
     [cart.quantity, cart.customerId, cart.detailProductId]
   )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
+Cart.deleteProduct = (cId: any, dpId: any, result: any) => {
+  queryObject(
+    `DELETE FROM ${table} WHERE customerId = ? AND detailProductId = ? `,
+    [cId, dpId]
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
+Cart.delete = (cId: any, result: any) => {
+  queryObject(`DELETE FROM ${table} WHERE customerId = ?`, cId)
     .then((res) => result(null, res))
     .catch((err) => result(err, null));
 };

@@ -4,7 +4,16 @@ dotenv.config({
   // path: `.env.dev`,
 });
 
-const { PORT, DB_HOST, DB_USER, DB_PWD, DB_NAME, JWT_SECRET } = process.env;
+const {
+  PORT,
+  DB_HOST,
+  DB_USER,
+  DB_PWD,
+  DB_NAME,
+  JWT_SECRET,
+  FRONTEND,
+  BACKEND,
+} = process.env;
 
 export const config = {
   port: PORT,
@@ -13,4 +22,6 @@ export const config = {
   dbPassword: DB_PWD,
   dbName: DB_NAME,
   jwt_secret: JWT_SECRET,
+  front: FRONTEND,
+  back: BACKEND,
 };
