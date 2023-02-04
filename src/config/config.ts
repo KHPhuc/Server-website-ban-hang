@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config({
-  path: `.env.product`,
-  // path: `.env.dev`,
+  // path: `.env.product`,
+  path: `.env.dev`,
 });
 
 const {
