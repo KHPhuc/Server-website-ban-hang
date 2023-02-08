@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Order from "../../model/Order/order.model";
-import { getAllFromOrder } from "./detail_order";
+import { getAllFromOrder, getDetailForCustomer } from "./detail_order";
 import { makeMomo } from "../../payment/Momo/MoMo";
 import Address from "../../model/address.model";
 import { generateId } from "../../utils/id";
@@ -104,13 +104,20 @@ export const createOrder = (req: Request, res: Response) => {
   });
 };
 
-// {
-//   orderId: 'ewfefwf',
-//   listProduct: [
-//     {
-
-//     }
-//   ]
-// }
+export const getAllForCustomers = (req: Request, res: Response) => {
+  Order.getAllForCustomer(
+    req.body.customerId,
+    req.body.page,
+    req.body.orderStatus,
+    (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json();
+      } else {
+        getDetailForCustomer(req, res, data);
+      }
+    }
+  );
+};
 
 export { getAll };

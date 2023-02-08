@@ -3,6 +3,7 @@ import Customer from "../model/customer.model";
 import { generateToken } from "../utils/token";
 import { generateId } from "../utils/id";
 import { json } from "body-parser";
+import Address from "../model/address.model";
 
 const prefix = "C";
 
@@ -52,11 +53,11 @@ const register = (req: Request, res: Response) => {
       });
       res.status(200).json({
         id: customer.customerId,
-        username: req.body.phoneNumber,
         phoneNumber: req.body.phoneNumber,
         email: req.body.email,
         name: req.body.name,
-        isAdmin: req.body.isAdmin ? true : false,
+        isAdmin: req.body.isAdmin === "true" ? true : false,
+        addressId: null,
         // token: token,
       });
     }
@@ -81,16 +82,103 @@ const login = (req: Request, res: Response) => {
           // console.log(res);
           res.status(200).json({
             id: data[0].customerId,
-            username: req.body.username,
             phoneNumber: data[0].phoneNumber,
             email: data[0].email,
             name: data[0].name,
             isAdmin: data[0].isAdmin === "true" ? true : false,
+            addressId: data[0],
             // token: token,
           });
         } else {
           res.status(400).send("Invalid Credentials");
         }
+      }
+    }
+  );
+};
+
+export const getInfo = (req: Request, res: Response) => {
+  Customer.getInfo(req.params.customerId, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json();
+    } else {
+      res.status(200).json(data);
+    }
+  });
+};
+
+export const updateInfo = (req: Request, res: Response) => {
+  if (req.body.name) {
+    let newAddress = new (Address as any)(req.body);
+    newAddress.addressId = generateId("A");
+    Address.create(newAddress, (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json();
+      } else {
+        let customer = new (Customer as any)(req.body);
+        customer.addressId = newAddress.addressId;
+        Customer.updateInfo(
+          req.params.customerId,
+          customer,
+          (err: any, data: any) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json();
+            } else {
+              Customer.getInfoAfterUpdate(
+                req.params.customerId,
+                (err: any, data: any) => {
+                  if (err) {
+                    console.log(err);
+                    res.status(500).json();
+                  } else {
+                    res.status(200).json({
+                      id: data[0].customerId,
+                      phoneNumber: data[0].phoneNumber,
+                      email: data[0].email,
+                      name: data[0].name,
+                      isAdmin: data[0].isAdmin === "true" ? true : false,
+                      addressId: data[0].addressId,
+                      // token: token,
+                    });
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    });
+  } else {
+    let customer = new (Customer as any)(req.body);
+
+    Customer.updateInfo(
+      req.params.customerId,
+      customer,
+      (err: any, data: any) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json();
+        } else {
+          res.status(200).json();
+        }
+      }
+    );
+  }
+};
+
+export const changePassword = (req: Request, res: Response) => {
+  Customer.changePassword(
+    req.body.newPassword,
+    req.body.customerId,
+    (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json();
+      } else {
+        res.status(200).json();
       }
     }
   );

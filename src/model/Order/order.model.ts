@@ -48,4 +48,29 @@ Order.update = (order: any, result: any) => {
     });
 };
 
+Order.getAllForCustomer = (
+  customerId: any,
+  page: any,
+  orderStatus: any,
+  result: any
+) => {
+  let step = 5;
+  if (!orderStatus) {
+    var q =
+      "SELECT * FROM `order` WHERE customerId = ? ORDER BY orderDate ASC LIMIT ?, ?";
+  } else {
+    var q =
+      "SELECT * FROM `order` WHERE customerId = ? AND orderStatus = '" +
+      orderStatus +
+      "' ORDER BY orderDate ASC LIMIT ?, ?";
+  }
+  queryObject(q, [customerId, page * step, step])
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 export default Order;

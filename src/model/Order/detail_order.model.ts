@@ -36,4 +36,17 @@ DetailOrder.create = (newDetailOrder: any, result: any) => {
     });
 };
 
+DetailOrder.getDetail = (orderId: any, result: any) => {
+  queryObject(
+    `SELECT orderID, detail_product.productId, detail_order.detailProductId, productName, image, color, size, originalPrice, currentPrice, detail_order.quantity FROM detail_order INNER JOIN detail_product, product WHERE detail_order.detailProductId = detail_product.detailProductId AND detail_product.productId = product.productId AND orderId = ?;`,
+    [orderId]
+  )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err: any) => {
+      result(err, null);
+    });
+};
+
 export default DetailOrder;

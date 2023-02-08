@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Address from "../model/address.model";
 
-const prefix = "PM";
+const prefix = "A";
 
 export const get = (req: Request, res: Response) => {
   Address.getByCId(req.params.customerId, (err: any, data: any) => {

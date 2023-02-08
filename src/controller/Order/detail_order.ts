@@ -29,4 +29,36 @@ const getAllFromOrder = (req: Request, res: Response, data: any) => {
     });
 };
 
+export const getDetailForCustomer = (
+  req: Request,
+  res: Response,
+  data: any
+) => {
+  var promises = data.map((e: any) => {
+    return new Promise((res, rej) => {
+      DetailOrder.getDetail(e.orderId, (err: any, dt: any) => {
+        if (err) {
+          console.log(err);
+          rej(err);
+        } else {
+          res(dt);
+        }
+      });
+    }).then((res) => {
+      e.detailOrder = res;
+      return e;
+    });
+  });
+
+  Promise.all(promises)
+    .then((dt) => {
+      // console.log(res);
+      res.status(200).json(dt);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json();
+    });
+};
+
 export { getAllFromOrder };

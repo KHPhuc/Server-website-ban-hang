@@ -47,6 +47,76 @@ Customer.login = (username: any, password: any, result: any) => {
     });
 };
 
+Customer.changePassword = (newPassword: any, cId: any, result: any) => {
+  queryObject(`UPDATE ${table} SET password=? WHERE customerId=?`, [
+    newPassword,
+    cId,
+  ])
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+Customer.getInfo = (cId: any, result: any) => {
+  queryObject(
+    `SELECT customerId, name, phoneNumber, email, birthday, sex, addressId FROM ${table} WHERE customerId =?`,
+    [cId]
+  )
+    .then((res: any) => {
+      if (res[0].addressId) {
+        queryObject(
+          `SELECT address, ward, district, city FROM address WHERE addressId =?`,
+          [res[0].addressId]
+        )
+          .then((res1: any) => {
+            let mergd = { ...res[0], ...res1[0] };
+            result(null, mergd);
+          })
+          .catch((err) => {
+            result(err, null);
+          });
+      } else {
+        result(null, res);
+      }
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+Customer.updateInfo = (cId: any, customer: any, result: any) => {
+  var query = `UPDATE ${table} SET`;
+
+  for (const [key, value] of Object.entries(customer)) {
+    if (value) {
+      query += ` ${key}='${value}',`;
+    }
+  }
+
+  query = query.substring(0, query.length - 1) + " WHERE customerId =?";
+
+  queryObject(query, [cId])
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
+Customer.getInfoAfterUpdate = (cId: any, result: any) => {
+  query(`SELECT * FROM ${table} WHERE customerId = '${cId}'`)
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 Customer.ban = (customerId: any, result: any) => {
   queryObject(`UPDATE ${table} SET ban=? WHERE customerId =?`, [
     "true",
