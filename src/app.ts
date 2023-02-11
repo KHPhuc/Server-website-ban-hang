@@ -27,7 +27,8 @@ app.use(
 // );
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+  let p = path.join(__dirname, "./public");
+  res.send("Hello: " + p);
 });
 
 // app.get("/sse", (req, res) => {
