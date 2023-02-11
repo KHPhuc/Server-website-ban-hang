@@ -52,9 +52,6 @@ app.get("/", (req, res) => {
 
 app.use("/api", router);
 
-// app.listen(process.env.PORT || config.port, () => {
-//   console.log(`Running on http://localhost:${config.port}`);
-// });
-app.listen(config.port, () => {
+app.listen(process.env.PORT || config.port, () => {
   console.log(`Running on http://localhost:${config.port}`);
 });
