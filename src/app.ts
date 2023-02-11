@@ -9,7 +9,7 @@ import * as path from "path";
 import router from "./routes";
 
 const app = express();
-app.use(express.static(path.join(__dirname, "./public")));
+app.use(express.static(path.join(__dirname, "../src/public")));
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
@@ -27,7 +27,7 @@ app.use(
 // );
 
 app.get("/", (req, res) => {
-  let p = path.join(__dirname, "./public");
+  let p = path.join(__dirname, "../src/public");
   res.send("Hello: " + p);
 });
 
