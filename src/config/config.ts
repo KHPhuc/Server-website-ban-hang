@@ -15,13 +15,24 @@ const {
   BACKEND,
 } = process.env;
 
+// export const config = {
+//   port: PORT,
+//   dbHost: DB_HOST,
+//   dbUser: DB_USER,
+//   dbPassword: DB_PWD,
+//   dbName: DB_NAME,
+//   jwt_secret: JWT_SECRET,
+//   front: FRONTEND,
+//   back: BACKEND,
+// };
+
 export const config = {
-  port: PORT,
-  dbHost: DB_HOST,
-  dbUser: DB_USER,
-  dbPassword: DB_PWD,
-  dbName: DB_NAME,
-  jwt_secret: JWT_SECRET,
-  front: FRONTEND,
-  back: BACKEND,
+  port: 5000,
+  dbHost: "localhost",
+  dbUser: "kp23",
+  dbPassword: "kieuphuc23",
+  dbName: "hoang_minh_shop",
+  jwt_secret: "hoang_minh_shop",
+  front: "https://kieuphuc.tk",
+  back: "https://14.225.205.209:5000/api",
 };
