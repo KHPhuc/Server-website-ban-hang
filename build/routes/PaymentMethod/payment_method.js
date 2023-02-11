@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const payment_method_controller_1 = require("../../controller/payment_method.controller");
+const token_1 = require("../../utils/token");
+const paymentMethodRouter = (0, express_1.Router)();
+paymentMethodRouter.get("/getForUser", payment_method_controller_1.getAllForUser);
+paymentMethodRouter.get("", token_1.authToken, payment_method_controller_1.getAll);
+paymentMethodRouter.put("/update/:paymentId", token_1.authToken, payment_method_controller_1.update);
+exports.default = paymentMethodRouter;

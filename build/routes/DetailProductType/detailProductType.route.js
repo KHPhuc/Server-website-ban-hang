@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const detail_product_type_controller_1 = require("../../controller/ProductType/detail_product_type.controller");
+const token_1 = require("../../utils/token");
+const detailProductTypeRouter = (0, express_1.Router)();
+detailProductTypeRouter.get("/:productTypeId", token_1.authToken, detail_product_type_controller_1.getByProductTypeId);
+detailProductTypeRouter.post("/create", token_1.authToken, detail_product_type_controller_1.create);
+detailProductTypeRouter.put("/update/:detailPTId", token_1.authToken, detail_product_type_controller_1.update);
+detailProductTypeRouter.delete("/delete/:detailPTId", token_1.authToken, detail_product_type_controller_1.remove);
+exports.default = detailProductTypeRouter;

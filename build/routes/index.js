@@ -1,0 +1,28 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const customer_route_1 = __importDefault(require("./Customer/customer.route"));
+const product_route_1 = __importDefault(require("./Product/product.route"));
+const product_type_route_1 = __importDefault(require("./ProductType/product_type.route"));
+const detailProductType_route_1 = __importDefault(require("./DetailProductType/detailProductType.route"));
+const detailProduct_route_1 = __importDefault(require("./DetailProduct/detailProduct.route"));
+const promotion_route_1 = __importDefault(require("./Promotion/promotion.route"));
+const payment_method_1 = __importDefault(require("./PaymentMethod/payment_method"));
+const order_1 = __importDefault(require("./Order/order"));
+const cart_router_1 = __importDefault(require("./Cart/cart.router"));
+const address_router_1 = __importDefault(require("./Address/address.router"));
+const apiRouter = (0, express_1.Router)();
+apiRouter.use("/customer", customer_route_1.default);
+apiRouter.use("/product", product_route_1.default);
+apiRouter.use("/product_type", product_type_route_1.default);
+apiRouter.use("/detail_product_type", detailProductType_route_1.default);
+apiRouter.use("/detail_product", detailProduct_route_1.default);
+apiRouter.use("/promotion", promotion_route_1.default);
+apiRouter.use("/payment", payment_method_1.default);
+apiRouter.use("/order", order_1.default);
+apiRouter.use("/cart", cart_router_1.default);
+apiRouter.use("/address", address_router_1.default);
+exports.default = apiRouter;
