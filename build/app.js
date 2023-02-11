@@ -7,7 +7,6 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const config_1 = require("./config/config");
 const routes_1 = __importDefault(require("./routes"));
 const app = (0, express_1.default)();
 app.use(express_1.default.static("./src/public"));
@@ -46,6 +45,9 @@ app.get("/", (req, res) => {
 //   });
 // });
 app.use("/api", routes_1.default);
-app.listen(process.env.PORT || config_1.config.port, () => {
-    console.log(`Running on http://localhost:${config_1.config.port}`);
+// app.listen(process.env.PORT || config.port, () => {
+//   console.log(`Running on http://localhost:${config.port}`);
+// });
+app.listen(5000, () => {
+    console.log(`Running on http://localhost:5000`);
 });
