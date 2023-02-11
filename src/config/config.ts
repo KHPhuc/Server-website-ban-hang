@@ -31,6 +31,8 @@ export const config = {
   dbHost: "localhost",
   dbUser: "kp23",
   dbPassword: "kieuphuc23",
+  // dbUser: "root",
+  // dbPassword: "",
   dbName: "hoang_minh_shop",
   jwt_secret: "hoang_minh_shop",
   front: "https://kieuphuc.tk",

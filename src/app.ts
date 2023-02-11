@@ -4,11 +4,12 @@ import cors from "cors";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import { config } from "./config/config";
+import * as path from "path";
 
 import router from "./routes";
 
 const app = express();
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, "./public")));
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ app.use(
     credentials: true,
   })
 );
+
 // app.use(
 //   session({
 //     secret: "Hello",
