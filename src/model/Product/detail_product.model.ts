@@ -32,9 +32,11 @@ DetailProduct.getAllWithProductId = (id: any, result: any) => {
     });
 };
 
-DetailProduct.getAllToShow = (result: any) => {
+DetailProduct.getAllToShow = (page: any, result: any) => {
   query(
-    `SELECT * FROM ${table} INNER JOIN product WHERE detail_product.productId = product.productId AND detail_product.old = "false" AND quantity > 0 GROUP BY color, detail_product.productId`
+    `SELECT * FROM ${table} INNER JOIN product WHERE detail_product.productId = product.productId AND detail_product.old = "false" AND quantity > 0 GROUP BY color, detail_product.productId LIMIT ${
+      page * 20
+    }, 20`
   )
     .then((res) => {
       result(null, res);

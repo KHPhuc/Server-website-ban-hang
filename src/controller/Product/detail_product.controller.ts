@@ -157,7 +157,7 @@ const getAllWithProduct = (req: Request, res: Response, data: any) => {
 };
 
 export const getAllToShow = (req: Request, res: Response) => {
-  DetailProduct.getAllToShow((err: any, data: any) => {
+  DetailProduct.getAllToShow(req.params.page, (err: any, data: any) => {
     if (err) {
       console.log(err);
       res.status(500).json(err);

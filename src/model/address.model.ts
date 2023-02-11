@@ -42,4 +42,25 @@ Address.create = (newAddress: any, result: any) => {
     });
 };
 
+Address.findByAll = (address: any, result: any) => {
+  queryObject(
+    `SELECT * FROM ${table} WHERE address=? AND ward=? AND district=? AND city=? AND name=? AND phoneNumber=? AND email=?`,
+    [
+      address.address,
+      address.ward,
+      address.district,
+      address.city,
+      address.name,
+      address.phoneNumber,
+      address.email,
+    ]
+  )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 export default Address;

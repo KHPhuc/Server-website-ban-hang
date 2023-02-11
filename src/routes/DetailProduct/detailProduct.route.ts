@@ -14,7 +14,7 @@ import { authToken } from "../../utils/token";
 
 const detailProductRouter = Router();
 
-detailProductRouter.get("/", getAllToShow);
+detailProductRouter.get("/:page", getAllToShow);
 detailProductRouter.get("/productType/:detailPTId", getFollowDetailPT);
 detailProductRouter.post(
   "/uploadImage",

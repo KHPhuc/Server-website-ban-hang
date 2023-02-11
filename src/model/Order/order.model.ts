@@ -57,12 +57,12 @@ Order.getAllForCustomer = (
   let step = 5;
   if (!orderStatus) {
     var q =
-      "SELECT * FROM `order` WHERE customerId = ? ORDER BY orderDate ASC LIMIT ?, ?";
+      "SELECT orderId, customerId, totalMoney, orderDate, orderStatus, `order`.`addressId`, address, ward, district, city, name, phoneNumber, `order`.`promotionId`, sale, `order`.paymentMethodId, payment_method.description, paymentStatus FROM `order` INNER JOIN address INNER JOIN payment_method LEFT JOIN promotion ON `order`.promotionId = promotion.promotionId WHERE `order`.`addressId` = address.addressId AND `order`.paymentMethodId = payment_method.paymentMethodId AND customerId = ? ORDER BY orderDate DESC LIMIT ?, ?";
   } else {
     var q =
-      "SELECT * FROM `order` WHERE customerId = ? AND orderStatus = '" +
+      "SELECT orderId, customerId, totalMoney, orderDate, orderStatus, `order`.`addressId`, address, ward, district, city, name, phoneNumber, `order`.`promotionId`, sale, `order`.paymentMethodId, payment_method.description, paymentStatus FROM `order` INNER JOIN address INNER JOIN payment_method LEFT JOIN promotion ON `order`.promotionId = promotion.promotionId WHERE `order`.`addressId` = address.addressId AND `order`.paymentMethodId = payment_method.paymentMethodId AND customerId = ? AND orderStatus = '" +
       orderStatus +
-      "' ORDER BY orderDate ASC LIMIT ?, ?";
+      "' ORDER BY orderDate DESC LIMIT ?, ?";
   }
   queryObject(q, [customerId, page * step, step])
     .then((res) => {
