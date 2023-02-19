@@ -7,15 +7,16 @@ import {
   getWithDetailProductType,
   // getExcelSample,
 } from "../../controller/ProductType/product_type.controller";
-import { authToken } from "../../utils/token";
+import { authTokenAdmin, authTokenUser } from "../../utils/token";
 
 const productTypeRouter = Router();
 
-productTypeRouter.get("/", authToken, getAll);
 productTypeRouter.get("/all", getWithDetailProductType);
+
 // productTypeRouter.get("/getExcel", getExcelSample);
-productTypeRouter.post("/create", authToken, create);
-productTypeRouter.put("/update/:productTypeId", authToken, update);
-productTypeRouter.delete("/delete/:productTypeId", authToken, remove);
+productTypeRouter.get("/", authTokenAdmin, getAll);
+productTypeRouter.post("/create", authTokenAdmin, create);
+productTypeRouter.put("/update/:productTypeId", authTokenAdmin, update);
+productTypeRouter.delete("/delete/:productTypeId", authTokenAdmin, remove);
 
 export default productTypeRouter;

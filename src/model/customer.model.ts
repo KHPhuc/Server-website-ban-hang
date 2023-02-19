@@ -14,8 +14,8 @@ const Customer = function (customer: any) {
   this.addressId = customer.addressId;
 };
 
-Customer.getAll = (result: any) => {
-  query(`SELECT * FROM ${table}`)
+Customer.getAll = (page:any, result: any) => {
+  query(`SELECT * FROM ${table} LIMIT ${page * 10}, 10`)
     .then((res) => {
       result(null, res);
     })

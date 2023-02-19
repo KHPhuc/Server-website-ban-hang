@@ -6,14 +6,18 @@ import {
   updateCart,
   deteleCart,
 } from "../../controller/cart.controller";
-import { authToken } from "../../utils/token";
+import { authTokenUser } from "../../utils/token";
 
 const cartRouter = Router();
 
-cartRouter.get("/:customerId", authToken, getByCId);
-cartRouter.get("/get_detail_cart/:customerId", authToken, getDetailCartById);
-cartRouter.post("/create", authToken, addCart);
-cartRouter.put("/update", authToken, updateCart);
-cartRouter.post("/delete", authToken, deteleCart);
+cartRouter.get("/:customerId", authTokenUser, getByCId);
+cartRouter.post("/create", authTokenUser, addCart);
+cartRouter.get(
+  "/get_detail_cart/:customerId",
+  authTokenUser,
+  getDetailCartById
+);
+cartRouter.put("/update", authTokenUser, updateCart);
+cartRouter.post("/delete", authTokenUser, deteleCart);
 
 export default cartRouter;

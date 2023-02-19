@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { get } from "../../controller/address.controller";
-import { authToken } from "../../utils/token";
+import { authTokenUser } from "../../utils/token";
 
 const addressRouter = Router();
 
-addressRouter.get("/:customerId", authToken, get);
+addressRouter.get("/:customerId", authTokenUser, get);
 
 export default addressRouter;

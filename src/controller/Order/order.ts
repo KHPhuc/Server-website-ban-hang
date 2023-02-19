@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Order from "../../model/Order/order.model";
 import { getAllFromOrder, getDetailForCustomer } from "./detail_order";
-import { makeMomo } from "../../payment/Momo/MoMo";
+import { makeMomo, makeRefundMomo } from "../../payment/Momo/MoMo";
 import Address from "../../model/address.model";
 import { generateId } from "../../utils/id";
 import DetailOrder from "../../model/Order/detail_order.model";
@@ -11,33 +11,160 @@ const prefix = "O";
 
 export const receiveResult = (req: Request, res: Response) => {
   // console.log(req.params);
-  // console.log(req.body);
+  console.log(req.body);
   if (req.body.resultCode === 0) {
     let order = {
       orderId: req.body.orderId,
       orderStatus: "Chuẩn bị hàng",
       paymentStatus: "Đã thanh toán",
+      paymentCode: req.body.transId,
     };
     Order.update(order, (err: any, data: any) => {});
   } else if (req.body.resultCode === 1006) {
     let order = {
       orderId: req.body.orderId,
       orderStatus: "Đã hủy",
-      paymentStatus: "Chưa thanh toán",
+      paymentStatus: "Đã hủy",
     };
     Order.update(order, (err: any, data: any) => {});
   }
 };
 
 const getAll = (req: Request, res: Response) => {
-  Order.getAll((err: any, data: any) => {
+  Order.getAll(req.body.page, req.body.orderStatus, (err: any, data: any) => {
     if (err) {
       console.log(err);
       res.status(500).json();
     } else {
-      getAllFromOrder(req, res, data);
+      getDetailForCustomer(req, res, data);
     }
   });
+};
+
+export const updateOrderStatus = (req: Request, res: Response) => {
+  var order = {
+    orderId: req.body.orderId,
+    orderStatus: req.body.orderStatus,
+    paymentMethodId: req.body.paymentMethodId,
+    paymentStatus: req.body.paymentStatus,
+    paymentCode: req.body.paymentCode,
+  };
+
+  if (req.body.orderStatus === "Đã hủy") {
+    if (req.body.paymentStatus === "Đã thanh toán") {
+      if (req.body.paymentMethodId === "PM-02") {
+        makeRefundMomo(
+          req.body.totalMoney,
+          req.body.orderId,
+          req.body.paymentCode
+        )
+          .then((rs: any) => {
+            if (rs.resultCode === 0) {
+              order.paymentStatus = "Đã hoàn tiền";
+              Order.update(order, (err: any, data: any) => {
+                if (err) {
+                  console.log(err);
+                  res.status(500).json();
+                } else {
+                  req.body.orderStatus = req.body.orderStatus1;
+                  getAll(req, res);
+                }
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            order.paymentStatus = "Đợi hoàn tiền";
+            Order.update(order, (err: any, data: any) => {
+              if (err) {
+                console.log(err);
+                res.status(500).json();
+              } else {
+                req.body.orderStatus = req.body.orderStatus1;
+                getAll(req, res);
+              }
+            });
+          });
+      }
+    } else {
+      Order.update(order, (err: any, data: any) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json();
+        } else {
+          req.body.orderStatus = req.body.orderStatus1;
+          getAll(req, res);
+        }
+      });
+    }
+  } else {
+    Order.update(order, (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json();
+      } else {
+        req.body.orderStatus = req.body.orderStatus1;
+        getAll(req, res);
+      }
+    });
+  }
+};
+
+export const cancelOrder = (req: Request, res: Response) => {
+  var order = {
+    orderId: req.body.orderId,
+    orderStatus: req.body.orderStatus,
+    paymentMethodId: req.body.paymentMethodId,
+    paymentStatus: req.body.paymentStatus,
+    paymentCode: req.body.paymentCode,
+  };
+  if (req.body.paymentStatus === "Đã thanh toán") {
+    if (req.body.paymentMethodId === "PM-02") {
+      makeRefundMomo(
+        req.body.totalMoney,
+        req.body.orderId + "-1",
+        req.body.paymentCode
+      )
+        .then((rs: any) => {
+          if (rs.resultCode === 0) {
+            order.paymentStatus = "Đã hoàn tiền";
+            Order.update(order, (err: any, data: any) => {
+              if (err) {
+                console.log(err);
+                res.status(500).json();
+              } else {
+                res.status(200).json({
+                  paymentStatus: "Đã hoàn tiền",
+                });
+              }
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          order.paymentStatus = "Đợi hoàn tiền";
+          Order.update(order, (err: any, data: any) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json();
+            } else {
+              res.status(200).json({
+                paymentStatus: "Đợi hoàn tiền",
+              });
+            }
+          });
+        });
+    }
+  } else {
+    Order.update(order, (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json();
+      } else {
+        res.status(200).json();
+      }
+    });
+  }
 };
 
 export const preCreateOrder = (req: Request, res: Response) => {

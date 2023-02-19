@@ -8,20 +8,24 @@ import {
   unBan,
   changePassword,
   getInfo,
-  updateInfo
+  updateInfo,
+  logout,
 } from "../../controller/customer.controller";
-import { authToken } from "../../utils/token";
+import { authTokenAdmin, authTokenUser } from "../../utils/token";
 
 const customerRouter = Router();
 
-customerRouter.get("/", authToken, getAll);
-customerRouter.get("/info/:customerId", authToken, getInfo);
-customerRouter.post("/create", authToken, create);
 customerRouter.post("/login", login);
-customerRouter.post("/changePassword", authToken, changePassword);
-customerRouter.post("/updateInfo/:customerId", authToken, updateInfo);
 customerRouter.post("/register", register);
-customerRouter.put("/ban/:customerId", authToken, ban);
-customerRouter.put("/unBan/:customerId", authToken, unBan);
+customerRouter.get("/logout", logout);
+
+customerRouter.get("/info/:customerId", authTokenUser, getInfo);
+customerRouter.post("/updateInfo/:customerId", authTokenUser, updateInfo);
+customerRouter.post("/changePassword", authTokenUser, changePassword);
+
+customerRouter.get("/:page", authTokenAdmin, getAll);
+customerRouter.post("/create", authTokenAdmin, create);
+customerRouter.put("/ban/:customerId", authTokenAdmin, ban);
+customerRouter.put("/unBan/:customerId", authTokenAdmin, unBan);
 
 export default customerRouter;

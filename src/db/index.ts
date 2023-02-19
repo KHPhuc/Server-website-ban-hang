@@ -12,6 +12,9 @@ var connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   console.log("✅ database: connected", config.dbHost);
+  connection.query(
+    `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
+  );
 });
 
 const query = (query: string) => {

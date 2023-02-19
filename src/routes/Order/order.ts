@@ -3,15 +3,21 @@ import {
   getAll,
   receiveResult,
   preCreateOrder,
-  getAllForCustomers
+  getAllForCustomers,
+  updateOrderStatus,
+  cancelOrder,
 } from "../../controller/Order/order";
-import { authToken } from "../../utils/token";
+import { authTokenAdmin, authTokenUser } from "../../utils/token";
 
 const orderRouter = Router();
 
-orderRouter.get("", getAll);
-orderRouter.post("/orders", getAllForCustomers);
 orderRouter.post("/receive_result", receiveResult);
-orderRouter.post("/create", preCreateOrder);
+
+orderRouter.post("/create", authTokenUser, preCreateOrder);
+orderRouter.post("/orders", authTokenUser, getAllForCustomers);
+orderRouter.post("/cancelOrder", authTokenUser, cancelOrder);
+
+orderRouter.post("", authTokenAdmin, getAll);
+orderRouter.post("/updateOrder", authTokenAdmin, updateOrderStatus);
 
 export default orderRouter;

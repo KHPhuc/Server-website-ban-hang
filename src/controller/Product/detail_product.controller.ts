@@ -169,7 +169,10 @@ export const getAllToShow = (req: Request, res: Response) => {
 
 export const getFollowDetailPT = (req: Request, res: Response) => {
   DetailProduct.getFollowDetailPT(
-    req.params.detailPTId,
+    req.body.detailPTId,
+    req.body.page,
+    req.body.color,
+    req.body.size,
     (err: any, data: any) => {
       if (err) {
         console.log(err);
@@ -179,6 +182,17 @@ export const getFollowDetailPT = (req: Request, res: Response) => {
       }
     }
   );
+};
+
+export const getProperties = (req: Request, res: Response) => {
+  DetailProduct.getProperties(req.params.detailPTId, (err: any, data: any) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(data);
+    }
+  });
 };
 
 const update = (req: Request, res: Response) => {

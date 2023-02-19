@@ -5,13 +5,13 @@ import {
   update,
   remove,
 } from "../../controller/ProductType/detail_product_type.controller";
-import { authToken } from "../../utils/token";
+import { authTokenAdmin, authTokenUser } from "../../utils/token";
 
 const detailProductTypeRouter = Router();
 
-detailProductTypeRouter.get("/:productTypeId", authToken, getByProductTypeId);
-detailProductTypeRouter.post("/create", authToken, create);
-detailProductTypeRouter.put("/update/:detailPTId", authToken, update);
-detailProductTypeRouter.delete("/delete/:detailPTId", authToken, remove);
+detailProductTypeRouter.get("/:productTypeId", getByProductTypeId);
+detailProductTypeRouter.post("/create", authTokenAdmin, create);
+detailProductTypeRouter.put("/update/:detailPTId", authTokenAdmin, update);
+detailProductTypeRouter.delete("/delete/:detailPTId", authTokenAdmin, remove);
 
 export default detailProductTypeRouter;

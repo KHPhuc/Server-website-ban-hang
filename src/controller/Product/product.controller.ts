@@ -12,6 +12,7 @@ const prefix = "P";
 const getAll = (req: Request, res: Response) => {
   Product.getAll((err: any, data: any) => {
     if (err) {
+      console.log(err);
       res.status(500).json({ message: "Lấy thất bại" });
     } else {
       res.status(200).json(data);
@@ -71,8 +72,9 @@ export const getDetailProductByUrl = (req: Request, res: Response) => {
 };
 
 const getWithDetailProduct = (req: Request, res: Response) => {
-  Product.getAllWithDP((err: any, data: any) => {
+  Product.getAllWithDP(req.params.page, (err: any, data: any) => {
     if (err) {
+      console.log(err);
       res.status(500).json({ message: "Lấy thất bại" });
     } else {
       getAllWithProduct(req, res, data);

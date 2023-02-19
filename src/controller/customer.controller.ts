@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import Customer from "../model/customer.model";
-import { generateToken } from "../utils/token";
+import { generateToken, generateTokenAdmin } from "../utils/token";
 import { generateId } from "../utils/id";
 import { json } from "body-parser";
 import Address from "../model/address.model";
 
 const prefix = "C";
 
-const getAll = (req: any, res: any) => {
-  Customer.getAll((err: any, data: any) => {
+const getAll = (req: Request, res: Response) => {
+  Customer.getAll(req.params.page, (err: any, data: any) => {
     if (err) {
       console.log(err);
       res.status(500).json();
@@ -45,7 +45,10 @@ const register = (req: Request, res: Response) => {
         }
       }
     } else {
-      let token = generateToken(customer.customerId, req.body.phoneNumber);
+      let token =
+        req.body.isAdmin === "true"
+          ? generateTokenAdmin(customer.customerId, req.body.phoneNumber)
+          : generateToken(customer.customerId, req.body.phoneNumber);
       // res.setHeader('set-cookie', token)
       res.cookie("token", token, {
         sameSite: "none",
@@ -73,7 +76,10 @@ const login = (req: Request, res: Response) => {
         res.json(err);
       } else {
         if (data.length) {
-          let token = generateToken(data.customerId, req.body.username);
+          let token =
+            data[0].isAdmin === "true"
+              ? generateTokenAdmin(data.customerId, req.body.username)
+              : generateToken(data.customerId, req.body.username);
           // console.log(token);
           res.cookie("token", token, {
             sameSite: "none",
@@ -95,6 +101,14 @@ const login = (req: Request, res: Response) => {
       }
     }
   );
+};
+
+export const logout = (req: Request, res: Response) => {
+  res.cookie("token", "", {
+    sameSite: "none",
+    secure: true,
+  });
+  res.status(200).json();
 };
 
 export const getInfo = (req: Request, res: Response) => {

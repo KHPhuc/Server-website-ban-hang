@@ -7,28 +7,31 @@ import {
   updateAndDelete,
   create,
   getAllToShow,
-  getFollowDetailPT
+  getFollowDetailPT,
+  getProperties,
 } from "../../controller/Product/detail_product.controller";
 import { upload } from "../../upload/Upload";
-import { authToken } from "../../utils/token";
+import { authTokenUser, authTokenAdmin } from "../../utils/token";
 
 const detailProductRouter = Router();
 
 detailProductRouter.get("/:page", getAllToShow);
-detailProductRouter.get("/productType/:detailPTId", getFollowDetailPT);
+detailProductRouter.get("/productType/:detailPTId", getProperties);
+detailProductRouter.post("/productType", getFollowDetailPT);
+
 detailProductRouter.post(
   "/uploadImage",
-  [authToken, upload.single("myFile")],
+  [authTokenAdmin, upload.single("myFile")],
   uploadImage
 );
-detailProductRouter.post("/deleteImage", authToken, deleteImage);
-detailProductRouter.post("/create", authToken, create);
+detailProductRouter.post("/deleteImage", authTokenAdmin, deleteImage);
+detailProductRouter.post("/create", authTokenAdmin, create);
 detailProductRouter.put(
   "/updateAndDelete/:detailProductId",
-  authToken,
+  authTokenAdmin,
   updateAndDelete
 );
-detailProductRouter.put("/update/:detailProductId", authToken, update);
-detailProductRouter.delete("/delete/:detailProductId", authToken, remove);
+detailProductRouter.put("/update/:detailProductId", authTokenAdmin, update);
+detailProductRouter.delete("/delete/:detailProductId", authTokenAdmin, remove);
 
 export default detailProductRouter;

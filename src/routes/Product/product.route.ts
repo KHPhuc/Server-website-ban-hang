@@ -6,14 +6,15 @@ import {
   deleteProduct,
   getDetailProductByUrl,
 } from "../../controller/Product/product.controller";
-import { authToken } from "../../utils/token";
+import { authTokenAdmin, authTokenUser } from "../../utils/token";
 
 const productRouter = Router();
 
-productRouter.get("/", authToken, getWithDetailProduct);
 productRouter.get("/detail_product/:linkProduct", getDetailProductByUrl);
-productRouter.post("/create", authToken, create);
-productRouter.put("/update/:productId", authToken, update);
-productRouter.delete("/delete/:productId", authToken, deleteProduct);
+
+productRouter.get("/:page", authTokenAdmin, getWithDetailProduct);
+productRouter.post("/create", authTokenAdmin, create);
+productRouter.put("/update/:productId", authTokenAdmin, update);
+productRouter.delete("/delete/:productId", authTokenAdmin, deleteProduct);
 
 export default productRouter;

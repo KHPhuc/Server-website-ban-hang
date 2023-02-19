@@ -6,18 +6,18 @@ import {
   updateAndDelete,
   remove,
 } from "../../controller/promotion.controller";
-import { authToken } from "../../utils/token";
+import { authTokenAdmin, authTokenUser } from "../../utils/token";
 
 const promotionRouter = Router();
 
-promotionRouter.get("", authToken, getAll);
-promotionRouter.post("/create", authToken, create);
-promotionRouter.put("/update/:promotionId", authToken, update);
+promotionRouter.get("", authTokenAdmin, getAll);
+promotionRouter.post("/create", authTokenAdmin, create);
+promotionRouter.put("/update/:promotionId", authTokenAdmin, update);
 promotionRouter.post(
   "/updateAndDelete/:promotionId",
-  authToken,
+  authTokenAdmin,
   updateAndDelete
 );
-promotionRouter.delete("/delete/:promotionId", authToken, remove);
+promotionRouter.delete("/delete/:promotionId", authTokenAdmin, remove);
 
 export default promotionRouter;
