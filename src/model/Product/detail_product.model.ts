@@ -46,6 +46,21 @@ DetailProduct.getAllToShow = (page: any, result: any) => {
     });
 };
 
+DetailProduct.searchProduct = (page: any, text: any, result: any) => {
+  var q = `SELECT * FROM ${table} INNER JOIN product WHERE detail_product.productId = product.productId AND detail_product.old = "false" AND quantity > 0`;
+  q += ` AND MATCH(productName) AGAINST ("${text}") GROUP BY color, detail_product.productId LIMIT ${
+    page * 20
+  }, 20`;
+
+  query(q)
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 DetailProduct.getFollowDetailPT = (
   id: any,
   page: any,

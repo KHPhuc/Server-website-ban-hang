@@ -167,6 +167,21 @@ export const getAllToShow = (req: Request, res: Response) => {
   });
 };
 
+export const searchProduct = (req: Request, res: Response) => {
+  DetailProduct.searchProduct(
+    req.body.page,
+    req.body.text,
+    (err: any, data: any) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json(err);
+      } else {
+        res.status(200).json(data);
+      }
+    }
+  );
+};
+
 export const getFollowDetailPT = (req: Request, res: Response) => {
   DetailProduct.getFollowDetailPT(
     req.body.detailPTId,
