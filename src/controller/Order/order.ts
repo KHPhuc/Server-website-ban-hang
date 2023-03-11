@@ -113,7 +113,7 @@ export const updateOrderStatus = (req: Request, res: Response) => {
 export const cancelOrder = (req: Request, res: Response) => {
   var order = {
     orderId: req.body.orderId,
-    orderStatus: req.body.orderStatus,
+    orderStatus: "Đã hủy",
     paymentMethodId: req.body.paymentMethodId,
     paymentStatus: req.body.paymentStatus,
     paymentCode: req.body.paymentCode,
