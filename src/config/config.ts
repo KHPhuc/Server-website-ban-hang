@@ -39,5 +39,5 @@ export const config = {
   // front: "https://kieuphuc.tk",
   // back: "https://14.225.205.209:5000/api",
   front: "http://localhost:5173",
-  back: "https://bc59-2402-800-62d2-d822-3d4b-c7d3-aa02-f97e.ap.ngrok.io/api",
+  back: "https://0c29-115-76-63-187.ap.ngrok.io/api",
 };
