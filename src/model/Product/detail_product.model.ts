@@ -106,10 +106,10 @@ DetailProduct.create = (newDetailProduct: any, result: any) => {
 };
 
 DetailProduct.update = (id: any, detailProduct: any, result: any) => {
-  queryObject(`UPDATE ${table} SET image=? WHERE detailProductId=? `, [
-    detailProduct.image,
-    id,
-  ])
+  queryObject(
+    `UPDATE ${table} SET image=?, quantity=? WHERE detailProductId=? `,
+    [detailProduct.image, detailProduct.quantity, id]
+  )
     .then((res) => {
       result(null, res);
     })

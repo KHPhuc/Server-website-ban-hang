@@ -47,7 +47,14 @@ Product.getDetailProduct = (name: any, result: any) => {
 };
 
 Product.getAllWithDP = (page: any, result: any) => {
-  query(`SELECT * FROM ${table} WHERE old = "false" LIMIT ${page * 10}, 10`)
+  // query(`SELECT * FROM ${table} WHERE old = "false" LIMIT ${page * 10}, 10`)
+  //   .then((res) => {
+  //     result(null, res);
+  //   })
+  //   .catch((err) => {
+  //     result(err, null);
+  //   });
+  query(`SELECT * FROM ${table} WHERE old = "false"`)
     .then((res) => {
       result(null, res);
     })

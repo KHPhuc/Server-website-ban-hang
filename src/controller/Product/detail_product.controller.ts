@@ -4,6 +4,7 @@ import { generateId } from "../../utils/id";
 import * as path from "path";
 import * as fs from "fs";
 import { getWithDetailProduct } from "./product.controller";
+import Product from "../../model/Product/product.model";
 
 const prefix = "DP";
 
