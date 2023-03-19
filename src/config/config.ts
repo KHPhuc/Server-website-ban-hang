@@ -37,8 +37,9 @@ export const config = {
   dbName: "hoang_minh_shop",
   jwt_secret: "hoang_minh_shop",
   jwt_secret_admin: "hoang_minh_shop_admin",
-  // front: "https://kieuphuc.tk",
+  front: "https://kieuphuc.tk",
   // back: "https://server-ban-hang.herokuapp.com/api",
-  front: "http://localhost:5173",
-  back: "https://eb0e-222-252-22-251.ap.ngrok.io/api",
+  back: "https://server-website-ban-hang.onrender.com",
+  // front: "http://localhost:5173",
+  // back: "https://eb0e-222-252-22-251.ap.ngrok.io/api",
 };
