@@ -39,7 +39,7 @@ export const config = {
   jwt_secret_admin: "hoang_minh_shop_admin",
   front: "https://kieuphuc.tk",
   // back: "https://server-ban-hang.herokuapp.com/api",
-  back: "https://server-website-ban-hang.onrender.com",
+  back: "https://server-website-ban-hang.onrender.com/api",
   // front: "http://localhost:5173",
   // back: "https://eb0e-222-252-22-251.ap.ngrok.io/api",
 };
