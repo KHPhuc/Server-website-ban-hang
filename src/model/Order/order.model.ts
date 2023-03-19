@@ -48,8 +48,8 @@ Order.create = (newOrder: any, result: any) => {
 
 Order.update = (order: any, result: any) => {
   queryObject(
-    "UPDATE `order` SET paymentStatus = ?, orderStatus = ? WHERE orderId = ?",
-    [order.paymentStatus, order.orderStatus, order.orderId]
+    "UPDATE `order` SET paymentStatus = ?, orderStatus = ?, paymentCode = ? WHERE orderId = ?",
+    [order.paymentStatus, order.orderStatus, order.paymentCode, order.orderId]
   )
     .then((res) => {
       result(null, res);
