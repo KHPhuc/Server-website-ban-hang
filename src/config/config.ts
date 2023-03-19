@@ -28,12 +28,12 @@ const {
 
 export const config = {
   port: 5000,
-  dbHost: "localhost",
-  dbUser: "root",
-  dbPassword: "",
-  // dbHost: "14.225.205.209",
-  // dbUser: "kp",
-  // dbPassword: "kieuphuc",
+  // dbHost: "localhost",
+  // dbUser: "root",
+  // dbPassword: "",
+  dbHost: "14.225.205.209",
+  dbUser: "kp",
+  dbPassword: "kieuphuc",
   dbName: "hoang_minh_shop",
   jwt_secret: "hoang_minh_shop",
   jwt_secret_admin: "hoang_minh_shop_admin",
