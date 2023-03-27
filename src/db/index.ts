@@ -15,17 +15,6 @@ connection.connect((err) => {
   connection.query(
     `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
   );
-  connection.query(
-    `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`,
-    (err, rs) => {
-      if (err) {
-        console.log(err);
-        connection.query(
-          `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
-        );
-      }
-    }
-  );
 });
 
 const query = (query: string) => {

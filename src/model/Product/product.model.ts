@@ -71,8 +71,14 @@ Product.create = (newProduct: any, result: any) => {
 
 Product.update = (id: any, product: any, result: any) => {
   queryObject(
-    `UPDATE ${table} SET productName=?, detailPTId=?, description=? WHERE productId=?`,
-    [product.productName, product.detailPTId, product.description, id]
+    `UPDATE ${table} SET productName=?, detailPTId=?, description=?, linkProduct=? WHERE productId=?`,
+    [
+      product.productName,
+      product.detailPTId,
+      product.description,
+      product.linkProduct,
+      id,
+    ]
   )
     .then((res) => result(null, res))
     .catch((err) => result(err, null));

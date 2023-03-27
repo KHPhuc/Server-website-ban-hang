@@ -104,10 +104,7 @@ const login = (req: Request, res: Response) => {
 };
 
 export const logout = (req: Request, res: Response) => {
-  res.cookie("token", "", {
-    sameSite: "none",
-    secure: true,
-  });
+  res.clearCookie("token");
   res.status(200).json();
 };
 

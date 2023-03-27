@@ -109,7 +109,6 @@ const create = (req: Request, res: Response) => {
 
 const update = (req: Request, res: Response) => {
   const product = new (Product as any)(req.body);
-  console.log(product);
 
   Product.update(req.params.productId, product, (err: any, data: any) => {
     if (err) {
