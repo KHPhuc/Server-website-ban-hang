@@ -9,6 +9,7 @@ import paymentMethodRouter from "./PaymentMethod/payment_method";
 import orderRouter from "./Order/order";
 import cartRouter from "./Cart/cart.router";
 import addressRouter from "./Address/address.router";
+import statisticRouter from "./Statistic/statistic.route";
 
 const apiRouter = Router();
 
@@ -22,5 +23,6 @@ apiRouter.use("/payment", paymentMethodRouter);
 apiRouter.use("/order", orderRouter);
 apiRouter.use("/cart", cartRouter);
 apiRouter.use("/address", addressRouter);
+apiRouter.use("/statistic", statisticRouter);
 
 export default apiRouter;

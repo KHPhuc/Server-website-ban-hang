@@ -14,7 +14,7 @@ const Customer = function (customer: any) {
   this.addressId = customer.addressId;
 };
 
-Customer.getAll = (page:any, result: any) => {
+Customer.getAll = (page: any, result: any) => {
   query(`SELECT * FROM ${table} LIMIT ${page * 10}, 10`)
     .then((res) => {
       result(null, res);
@@ -141,6 +141,14 @@ Customer.unBan = (customerId: any, result: any) => {
     .catch((err) => {
       result(err, null);
     });
+};
+
+Customer.statistic = (result: any) => {
+  query(
+    `SELECT count(customerId) as khachHang FROM hoang_minh_shop.customer WHERE ban = 'false' AND isAdmin = 'false'`
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
 };
 
 export default Customer;

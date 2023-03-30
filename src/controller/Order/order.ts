@@ -6,6 +6,8 @@ import Address from "../../model/address.model";
 import { generateId } from "../../utils/id";
 import DetailOrder from "../../model/Order/detail_order.model";
 import Cart from "../../model/cart.model";
+import PaymentMethod from "../../model/payment_method.model";
+import DetailProduct from "../../model/Product/detail_product.model";
 
 const prefix = "O";
 
@@ -168,6 +170,56 @@ export const cancelOrder = (req: Request, res: Response) => {
 };
 
 export const preCreateOrder = (req: Request, res: Response) => {
+  PaymentMethod.checkStatus(
+    req.body.paymentMethodId,
+    (err2: any, res2: any) => {
+      if (err2) {
+        console.log(err2);
+        res
+          .status(500)
+          .json({ message: "Phương thức thanh toán hiện đang bảo trì!" });
+      } else {
+        if (res2[0].status === "true") {
+          var check = true;
+          var promises = req.body.listProduct.map((e: any) => {
+            return new Promise((resolve, reject) => {
+              DetailProduct.checkQuantity(
+                e.detailProductId,
+                (err1: any, res1: any) => {
+                  if (err1) {
+                    console.log(err1);
+                    res.status(500).json();
+                  } else {
+                    if (res1[0].quantity < e.quantity) {
+                      reject(res1[0]);
+                    } else {
+                      resolve(true);
+                    }
+                  }
+                }
+              );
+            });
+          });
+          Promise.all(promises)
+            .then((res: any) => {
+              preCreateOrderNext(req, res);
+            })
+            .catch((err) => {
+              res.status(500).json({
+                message: `${err.productName} tối đa ${err.quantity}`,
+              });
+            });
+        } else {
+          res
+            .status(500)
+            .json({ message: "Phương thức thanh toán hiện đang bảo trì!" });
+        }
+      }
+    }
+  );
+};
+
+export const preCreateOrderNext = (req: Request, res: Response) => {
   var newOrder = new (Order as any)(req.body);
   newOrder.orderId = generateId(prefix);
   if (req.body.addressId) {

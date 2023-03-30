@@ -84,4 +84,52 @@ Order.getAllForCustomer = (
     });
 };
 
+Order.statistic1 = (result: any) => {
+  query(
+    `SELECT sum(totalMoney) as doanhThu, count(orderId) as donHang FROM hoang_minh_shop.order WHERE orderStatus = 'Đã giao'`
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
+Order.statistic2 = (result: any) => {
+  query(
+    "SELECT sum(quantity) as daBan FROM hoang_minh_shop.order INNER JOIN hoang_minh_shop.detail_order WHERE `order`.orderId = detail_order.orderId AND orderStatus = 'Đã giao'"
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
+Order.statistic3 = (result: any) => {
+  query(
+    "SELECT DATE_FORMAT(orderDate, '%Y-%m') AS date, count(orderId) as don, 'Đã đặt' as orderStatus FROM `order` group by month(orderDate), year(orderDate) order by DATE_FORMAT(orderDate, '%Y-%m') ASC"
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
+Order.statistic4 = (result: any) => {
+  query(
+    "SELECT DATE_FORMAT(updateDate, '%Y-%m') AS date, count(orderId) as don, orderStatus FROM `order` group by orderStatus, MONTH(updateDate), YEAR(updateDate) order by DATE_FORMAT(updateDate, '%Y-%m') ASC"
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
+Order.statistic5 = (result: any) => {
+  query(
+    "SELECT count(orderId) as soluong, orderStatus FROM `order` group by orderStatus"
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
+Order.statistic6 = (result: any) => {
+  query(
+    "SELECT productName as name, sum(detail_order.quantity) as value FROM `order` INNER JOIN detail_order, detail_product, product where `order`.orderId = detail_order.orderId AND detail_order.detailProductId = detail_product.detailProductId AND detail_product.productId = product.productId AND orderStatus = 'Đã giao' GROUP BY product.productId"
+  )
+    .then((res) => result(null, res))
+    .catch((err) => result(err, null));
+};
+
 export default Order;

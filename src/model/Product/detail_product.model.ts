@@ -141,4 +141,17 @@ DetailProduct.delete = (id: any, result: any) => {
     });
 };
 
+DetailProduct.checkQuantity = (id: any, result: any) => {
+  queryObject(
+    `SELECT quantity, productName FROM ${table} INNER JOIN product WHERE ${table}.productId = product.productId AND detailProductId = ?`,
+    [id]
+  )
+    .then((res) => {
+      result(null, res);
+    })
+    .catch((err) => {
+      result(err, null);
+    });
+};
+
 export default DetailProduct;
