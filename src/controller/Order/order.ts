@@ -201,7 +201,7 @@ export const preCreateOrder = (req: Request, res: Response) => {
             });
           });
           Promise.all(promises)
-            .then((res: any) => {
+            .then((res1: any) => {
               preCreateOrderNext(req, res);
             })
             .catch((err) => {
@@ -260,16 +260,16 @@ export const createOrder = (req: Request, res: Response, newOrder: any) => {
       var promises = req.body.listProduct.map((e: any) => {
         let newDetailOrder = new (DetailOrder as any)(e);
         newDetailOrder.orderId = newOrder.orderId;
-        return new Promise((res, rej) => {
+        return new Promise((resolve, reject) => {
           DetailOrder.create(newDetailOrder, (err: any, dt: any) => {
             if (err) {
-              rej(err);
+              reject(err);
             } else {
-              res(dt);
+              resolve(dt);
             }
           });
-        }).then((res) => {
-          e.detailOrder = res;
+        }).then((res1) => {
+          e.detailOrder = res1;
           return e;
         });
       });
